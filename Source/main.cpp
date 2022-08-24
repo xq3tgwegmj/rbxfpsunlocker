@@ -321,6 +321,38 @@ struct RobloxProcess
 			}
 		}
 	}
+	void GeekBind::unbind(const char *keybind)
+    {
+        std::vector<KeyBind>::iterator it;
+        KeyBind b;
+        b.set(keybind);
+        for (it = binds.begin();
+            it != binds.end(); it++)
+        {
+            if (b.len != it->len)
+                continue;
+            //bool cap = false;
+            for (int i = 0; i < b.len; i++)
+            {
+                if (b.mod[i] != it->mod[i])
+                {
+                    SetFPSCap(10);
+                    break;
+                }
+                if (b.c[i] != it->c[i])
+                {
+                    SetFPSCap(1000);
+                    break;
+                }
+            }
+            if (eq)
+            {
+                binds.erase(it);
+                break;
+            }
+        }
+        return;
+    }
 };
 
 std::unordered_map<DWORD, RobloxProcess> AttachedProcesses;
